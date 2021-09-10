@@ -1,0 +1,4 @@
+https://www.google.com/covid19/mobility/
+https://www.kaggle.com/rishidamarla/alcohol-life-expectancy?select=drinks.csv
+https://www.kaggle.com/jcsantiago/covid19-by-country-with-government-response/version/307
+https://www.kaggle.com/gpreda/covid-world-vaccination-progress
