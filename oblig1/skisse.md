@@ -26,3 +26,12 @@ I tillegg er det et område for smitte etter fest- og helligdager. Her i Norge k
 Datasettene om corona, altså smitte og vaksiner, passer bra sammen siden de har datoer og en tydelig relasjon. Google sitt datasett om hvordan befolkninger beveger seg blir mer spennende å se om kommer til å ha noen tydelig sammenheng.
 
 I tillegg var tanken var egentlig å bruke private størmforbruk og sette det i forhold til smitte, for å få et estimat på hvor mange som hadde hjemmekontor. Dette fant jeg ikke noen datasett for, så derfor ble det alkohol per land istedenfor.
+
+### Linker til datasett
+https://www.google.com/covid19/mobility/
+
+https://www.kaggle.com/rishidamarla/alcohol-life-expectancy?select=drinks.csv
+
+https://www.kaggle.com/jcsantiago/covid19-by-country-with-government-response/version/307
+
+https://www.kaggle.com/gpreda/covid-world-vaccination-progress
