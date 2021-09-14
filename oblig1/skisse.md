@@ -28,10 +28,20 @@ Datasettene om corona, altså smitte og vaksiner, passer bra sammen siden de har
 I tillegg var tanken var egentlig å bruke private størmforbruk og sette det i forhold til smitte, for å få et estimat på hvor mange som hadde hjemmekontor. Dette fant jeg ikke noen datasett for, så derfor ble det alkohol per land istedenfor.
 
 ### Linker til datasett
-https://www.google.com/covid19/mobility/
 
 https://www.kaggle.com/rishidamarla/alcohol-life-expectancy?select=drinks.csv
 
 https://www.kaggle.com/jcsantiago/covid19-by-country-with-government-response/version/307
 
 https://www.kaggle.com/gpreda/covid-world-vaccination-progress
+
+
+### Beskrivelse av google activety
+https://www.google.com/covid19/mobility/
+
+Datasettet inneholder informasjon om hvordan og hvor folk beveger seg, for eksempel til butikker og appotek. Datasettet består av 270 filer, altså en fil per land. I hver fil er det en rad per region per dato, så man kan se på en region i et land på en spesiel dato. De første 10 feltene i hver fil går med til det region og dato, i tillegg til litt ekstra info om hver region. Blant disse feltene er det en del null verdier, men siden det ikke er her verdien i dataene ligger bør ikke det skape problemer.
+
+Deretter kommer de interessante delene i datasettet, nemmelig tallene for hvor folk reiser. Her er det 6 felt som viser endringer i prosent for hvor folk er. Som regel vil de fleste tallene være negative siden folk er mindre på butikker og slikt sammenlignet med før, mens feltet for hvor mange som er hjemme vil være positivt.
+
+Dette datasettet passer bra fror dokumentdatabaser, siden det allerede er dokumenter. I tillegg er det allerede delvvis stukturert, siden det er CSV filer, så det bør gå ganske greit å oversette det til JSON. 
+Alternativt kan datasettet passe til kolonnefamilie databaser for å "skjule" verdiene som ikke er i datasettet, men da må eventuelt alle filene slås sammen.
