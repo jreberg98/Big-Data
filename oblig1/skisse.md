@@ -33,8 +33,6 @@ https://www.kaggle.com/rishidamarla/alcohol-life-expectancy?select=drinks.csv
 
 https://www.kaggle.com/jcsantiago/covid19-by-country-with-government-response/version/307
 
-https://www.kaggle.com/gpreda/covid-world-vaccination-progress
-
 
 ### Beskrivelse av google activety
 https://www.google.com/covid19/mobility/
@@ -45,3 +43,12 @@ Deretter kommer de interessante delene i datasettet, nemmelig tallene for hvor f
 
 Dette datasettet passer bra fror dokumentdatabaser, siden det allerede er dokumenter. I tillegg er det allerede delvvis stukturert, siden det er CSV filer, så det bør gå ganske greit å oversette det til JSON. 
 Alternativt kan datasettet passe til kolonnefamilie databaser for å "skjule" verdiene som ikke er i datasettet, men da må eventuelt alle filene slås sammen.
+
+### Beskrivelse av vaksine datasett
+https://www.kaggle.com/gpreda/covid-world-vaccination-progress
+
+Vakisnedatasettet består av en fil, med en rad per land og dato. I settet er det 222 land, med datoer fra 1 desember. Settet blir fortsatt oppdatert, så man kan få nye oppføringer dersom man ønsker det.
+
+Settet startet med land og landkode. Deretter kommer datoen for oppføringen, som sammen med land gjør hver rad unik fra de andre. Deretter kommer tall for vaksinasjoner. Først totalen vaksiner og fullvaksinert, så daglige vaksinasjoner og deretter prosent. I starten for hvert land vil det da være en del null verdier, siden det tok litt tid med vaksinering.
+
+Dette datasettet passer best til kolonnefamilie databaser, og da aller helst med superkolonner. På den måten kan man ha en en oversikt over land og deretter over datoer igjen. Dette passer også like bra til key-value databaser, da med en key til en liste med andre key-value sett.
