@@ -27,10 +27,6 @@ Datasettene om corona, altså smitte og vaksiner, passer bra sammen siden de har
 
 I tillegg var tanken var egentlig å bruke private størmforbruk og sette det i forhold til smitte, for å få et estimat på hvor mange som hadde hjemmekontor. Dette fant jeg ikke noen datasett for, så derfor ble det alkohol per land istedenfor.
 
-### Linker til datasett
-
-https://www.kaggle.com/rishidamarla/alcohol-life-expectancy?select=drinks.csv
-
 
 ### Beskrivelse av google activety
 https://www.google.com/covid19/mobility/
@@ -59,3 +55,12 @@ Datasettet inneholder en del tall for smittede, døde og friske i et land. I til
 De to første kolonnene i settet er land og landkode. Deretter kommer datoen for når datoen gjelder. Deretter kommer antall smittede, døde og friske, og så de samme feltene i forhold til dagen før. Til slutt kommer "R" tallet, alltså hvor mange en smittet smitter videre.
 
 Datasettet passer best til key-value databaser, med landet som key. Deretter kan hver dato bli plassert som et element i en liste. Alternativt kunne man brukt kolonnefamile databaser, men key-value bør fungere bedre.
+
+### Beskrivelse av flyreiser
+https://zenodo.org/record/3974209#.YUBfT50zaUm
+
+Det siste datasettet er over flyreiser internasjonalt. Settet består av en fil per måned, som tilsammen blir 3,1 GB med data. Settet har første dato 1. januar 2019, som er tidligere enn de andre datasetta. De andre datasetta starter ikke før rundt 2020, så det er ikke noe stort poeng å ta 2019 med. Data fra bare 2020 vil da være på ca 900 MB, som fortsatt er en del.
+
+Settet består av rader der hver rad er en flygning. En flygning består av data om flyet, som ikke er relevant i denna sammenhengen. Deretter kommer hvilken flyplass det reiste fra, og til. Deretter er det noen flere felt som handler om flyplassen, som ikke er interresant for selve flyreisen som skal brukes her.
+
+Dette datasettet handler om flyplasser og reiser mellom flyplasser, så det er derfor best egnet for en graf database. De er hver flyplass en node mens flyreisene er kantene mellom nodene. På hver kant kan man ha diverse info om flyet, mens hver node kan ha data om flyplassen.
