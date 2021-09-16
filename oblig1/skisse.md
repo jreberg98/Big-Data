@@ -31,8 +31,6 @@ I tillegg var tanken var egentlig å bruke private størmforbruk og sette det i 
 
 https://www.kaggle.com/rishidamarla/alcohol-life-expectancy?select=drinks.csv
 
-https://www.kaggle.com/jcsantiago/covid19-by-country-with-government-response/version/307
-
 
 ### Beskrivelse av google activety
 https://www.google.com/covid19/mobility/
@@ -52,3 +50,12 @@ Vakisnedatasettet består av en fil, med en rad per land og dato. I settet er de
 Settet startet med land og landkode. Deretter kommer datoen for oppføringen, som sammen med land gjør hver rad unik fra de andre. Deretter kommer tall for vaksinasjoner. Først totalen vaksiner og fullvaksinert, så daglige vaksinasjoner og deretter prosent. I starten for hvert land vil det da være en del null verdier, siden det tok litt tid med vaksinering.
 
 Dette datasettet passer best til kolonnefamilie databaser, og da aller helst med superkolonner. På den måten kan man ha en en oversikt over land og deretter over datoer igjen. Dette passer også like bra til key-value databaser, da med en key til en liste med andre key-value sett.
+
+### Beskrivelse av smitte datasett
+https://www.kaggle.com/jcsantiago/covid19-by-country-with-government-response/version/307
+
+Datasettet inneholder en del tall for smittede, døde og friske i et land. I tillegg er det en kolonne for datoer. Det vil si at det er en rad per land per dato. Det er 192 land i settet, så derfor vil de andre datasetta ha land som ikke er med her.
+
+De to første kolonnene i settet er land og landkode. Deretter kommer datoen for når datoen gjelder. Deretter kommer antall smittede, døde og friske, og så de samme feltene i forhold til dagen før. Til slutt kommer "R" tallet, alltså hvor mange en smittet smitter videre.
+
+Datasettet passer best til key-value databaser, med landet som key. Deretter kan hver dato bli plassert som et element i en liste. Alternativt kunne man brukt kolonnefamile databaser, men key-value bør fungere bedre.
