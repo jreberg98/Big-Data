@@ -48,13 +48,13 @@ Settet startet med land og landkode. Deretter kommer datoen for oppføringen, so
 Dette datasettet passer best til kolonnefamilie databaser, og da aller helst med superkolonner. På den måten kan man ha en en oversikt over land og deretter over datoer igjen. Dette passer også like bra til key-value databaser, da med en key til en liste med andre key-value sett.
 
 ### Beskrivelse av smitte datasett
-https://www.kaggle.com/jcsantiago/covid19-by-country-with-government-response/version/307
+https://www.kaggle.com/imdevskp/corona-virus-report?select=full_grouped.csv
 
-Datasettet inneholder en del tall for smittede, døde og friske i et land. I tillegg er det en kolonne for datoer. Det vil si at det er en rad per land per dato. Det er 192 land i settet, så derfor vil de andre datasetta ha land som ikke er med her.
+Datasettet inneholder en del tall for smittede, døde og friske i et land. I tillegg er det en kolonne for datoer. Det vil si at det er en rad per land per dato. Det er 187 land i settet, så derfor vil de andre datasetta ha land som ikke er med her.
 
-De to første kolonnene i settet er land og landkode. Deretter kommer datoen for når datoen gjelder. Deretter kommer antall smittede, døde og friske, og så de samme feltene i forhold til dagen før. Til slutt kommer "R" tallet, alltså hvor mange en smittet smitter videre.
+Settet starter med dato og landkode, for å gjøre hver rad unik fra hverandre. Deretter kommer det tall for smittede, døde, friske, syke på daværende tidspunkt, og endringer fra dagen tidligere. Blant de siste feltene er det noen negative tall, som vil si at det er noen feil i datasettet. Disse feilene velger jeg å ikke forholde meg til, siden de forekommer såppas sjeldent. Alternativt kan man justere de nagative verdiene til 0, 
 
-Datasettet passer best til key-value databaser, med landet som key. Deretter kan hver dato bli plassert som et element i en liste. Alternativt kunne man brukt kolonnefamile databaser, men key-value bør fungere bedre.
+Datasettet passer best til key-value databaser, med landet og datoen som key. Det gjør at det blir mange objekter i databasen, som gjør at databasen potensielt må finne mange objekter. Ettersom key value databaser er laget for å raskt kunne finne data vil ikke dette by på problemer.
 
 ### Beskrivelse av flyreiser
 https://zenodo.org/record/3974209#.YUBfT50zaUm
