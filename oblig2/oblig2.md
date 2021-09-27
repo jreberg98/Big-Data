@@ -14,7 +14,7 @@ Kallene til databasen vil bestå av et eller flere land, og enten på en dato el
 Alternativt kunne man hatt en nøkkel med kun navn på landet, og så en liste der alle datoer er oppført. I dette tilfellet hadde det blitt veldig store objekter med lister som må ittereres, noe Key-Value databaser ikke er designet for å gjøre.
 
 ### Objekt
-Siden nøkkelen består av et land og en dato skal hvert objekt holde på dataene for den ene dagen i det landet. Objektet vil da ha felt for hver
+Siden nøkkelen består av et land og en dato skal hvert objekt holde på dataene for den ene dagen i det landet. Objektet vil da ha et felt for hvert felt i datasettet. Altså 4 felt med tall for den aktuelle dagen, 3 felter med totaler for det lande frem til valgt dato, og så et felt med hvilken region som er med. 
 
 ### Aggregering
 Aggregeringene man har bruk for i objektene er summering av tallene i det tidligere oppføringene. Denne summeringa er allerede med i filen, så databasen trenger strengt tatt da ikke å aggregere noe. Denne aggregeringen er forholdsvis lett å gjennomføre, ettersom det bare å legge til de aggregerte verdiene fra forrige objekt og legge til de som er på objektet man leser inn. Dette kunne man eventuelt gjort for å dobbeltsjekke at dataen stemmer.
