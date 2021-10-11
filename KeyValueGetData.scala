@@ -15,7 +15,7 @@ case class NodeResponse(key : String, value: String)
 case class Node(key : String, value: String, nodes: Array[NodeResponse])
 case class Message(action: String, node: Node)
 
-case class Response(date: String, country: String, region: String, var confirmed: Int, var deaths: Int, var recovered: Int, var active: Int, var newCases: Int, var newDeaths: Int, var newRecoveries: Int)
+case class Response(date: String, var confirmed: Int, var deaths: Int, var recovered: Int, var active: Int, var newCases: Int, var newDeaths: Int, var newRecoveries: Int)
 
 
 object KeyValueGetData extends App {
@@ -39,7 +39,6 @@ object KeyValueGetData extends App {
     val valueParsed = new Gson().fromJson( messageParsed.node.nodes(0).value, classOf[Response] );
     
     println("Dato: " + valueParsed.date);
-    println("Land: " + valueParsed.country);
     println("# smitta: " + valueParsed.confirmed);
     println("# døde: " + valueParsed.deaths);
     println("# friske: " + valueParsed.recovered);

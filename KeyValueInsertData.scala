@@ -16,7 +16,7 @@ import scala.io.Source
 case class CountryEntery(date: String, country: String, confirmed: Int, deaths: Int, recovered: Int, active: Int, newCases: Int, newDeaths: Int, newRecoveries: Int, region: String)
 case class RegionEntery(date: String, region: String, var confirmed: Int, var deaths: Int, var recovered: Int, var active: Int, var newCases: Int, var newDeaths: Int, var newRecoveries: Int)
 
-object insertKeyValue extends App {
+object KeyValueInsertData extends App {
 	val source = Source.fromFile("../datasett/KeyValue.csv")
 	
 //	def parseInt(value : String) : Option[Int] = if (value =="") None else Some(value.toInt)
