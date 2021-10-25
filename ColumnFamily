@@ -1,0 +1,45 @@
+// Lage tabell
+
+CREATE KEYSPACE prosjekt WITH replication = {'class': 'SimpleStrategy', 'replication_factor': 1};
+
+USE prosjekt;
+
+DROP TABLE vaccine;
+CREATE TABLE vaccine (
+    country TEXT,
+    countryISO TEXT,
+    date TEXT,
+    totalVaccinations float,
+    totalPeopleVaccinated float,
+    totalPeopleFullyVaccinated float,
+    dailyVaccinatedRaw float,
+    dailyVaccinated float,
+    totalDosesPercent float,
+    totalVaccinatedPercent float,
+    totalFullyVaccinatedPercent float,
+    vaccinesPercent float,
+    vaccinesPerDayPerMilion TEXT,
+    source TEXT,
+    sourceWeb TEXT,
+    PRIMARY KEY (country,date)
+);
+DESCRIBE vaccine; // Viser fram tabellen, for å dobbeltsjekke. Ingen grunn til å gjøre ellers
+
+
+
+// Lese inn data
+// Filen med datagrunnlaget må da være plasset på rett lokasjon
+
+COPY vaccine ( country, countryISO, date, totalVaccinations, totalPeopleVaccinated, totalPeopleFullyVaccinated, dailyVaccinatedRaw, dailyVaccinated, totalDosesPercent, totalVaccinatedPercent, totalFullyVaccinatedPercent, vaccinesPercent, vaccinesPerDayPerMilion, source, sourceWeb)
+FROM 'prosjekt/kode/datasett/country_vaccinations.csv'
+WITH HEADER = TRUE;
+
+// Hente ut data
+
+// Hente alle oppføringer for et land
+SELECT * FROM vaccine WHERE country = 'Norway';
+
+// Hente alle oppføringer i et tidsintervall
+SELECT * FROM vaccine WHERE country = 'Norway' AND date > '2021-05-07' AND date < '2021-07-01';
+
+// Verdier i '' byttes ut til det brukeren hadde gitt som input
