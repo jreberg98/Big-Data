@@ -1,0 +1,12 @@
+// Sette inn nodene
+LOAD CSV FROM "file:///country.csv" AS countries CREATE (:Country {code: countries[0]})
+
+// Lager index
+CREATE INDEX ON :Country(code)
+
+// Setter inn selve reisene
+LOAD CSV FROM "file:///out.csv" AS flights MATCH (departure:Country {code:flights[5]}) MATCH (arriving:Country {code:flights[6]}) MERGE (departure)-[:Flight {date:flights[7]}]->(arriving)
+
+
+// Hente data (skal i tillegg kunne filtreres på dato)
+MATCH (:Country {code:"US"})-[flight:Was]->(country:Country) RETURN country.code, flight.date
