@@ -5,3 +5,10 @@ target/
 .bsp/
 
 *.pdf
+
+*.parquet
+
+datasett/*.csv
+datasett/*.csv.gz
+
+out/*
