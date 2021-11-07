@@ -2,7 +2,9 @@
 
 ## Datasett
 
-Datagrunnlaget består av en CSV fil med en linje per flyvning. Hver linje er igjen delt inn i flere felt. Av datasettet er det forholdsvis lite som skal brukes ettersom da bare er interessant når flyene gikk, og ikke noe om flyene. Derfor trengs egentlig bare flyplass flyet fløy fra og til, og dato. 
+Datagrunnlaget består av en CSV fil med en linje per flyvning. Hver linje er igjen delt inn i flere felt. Av datasettet er det forholdsvis lite som skal brukes ettersom da bare er interessant når flyene gikk, og ikke noe om flyene. Derfor trengs egentlig bare flyplass flyet fløy fra og til, og dato. I tillegg er det en annen fil som brukes for å lage nodene til datasettet. Det er en fil som inneholde landskodene for hvert land som er med i datasettet. Det er eventuelt i denne filen det skulle vært mer data for å legge til info på nodene.
+
+Datasettet med kantene endres av et Java program, der flyplasskoden blir byttet til landskoden for landet flyplassen er i. Det er fordi De andre datasetta har data på landsnivå, og det ville derfor vært rart om dette datasettet var mer detaljert.
 
 
 ### Vasking av data
@@ -30,9 +32,6 @@ Hver flyreise skal representeres som en relasjon mellom 2 noder. Denne relasjone
 
 Siden alle flyplasser i et land blir slått sammen til en node vil det bli en del flyreiser som går til og fra samme node. De vil ikke ha noen nytte for datasettet, og skal derfor ikke tas med.
 
-## Hente data
-*_?_*
-
 ## Nye data
 Når det kommer nye data til databasen vil det da dreie seg om en ny relasjon mellom to land. Grunnen til dette er at hvert land allerede har en node, og vil derfor allerede være representert i databasen.
 
@@ -40,3 +39,17 @@ For å legge til en ny relasjon vil man måtte legge inn landet flyet fløy fra 
 
 ### Oppdatert datagrunnlag
 Når datakilden oppdateres forutsetter det for databasen at ingen tidligere data endres, og at det bare legges til nye data. Den største grunnen til dette er at dette er historiske data, altså data om ting som har skjedd. Derfor vil oppdatering av datakilden fungere på samme måte som når en bruker legger inn data, bare at det er flere innsettninger.
+
+# Kode
+// Sette inn nodene
+LOAD CSV FROM "file:///country.csv" AS countries CREATE (:Country {code: countries[0]})
+
+// Lager index
+CREATE INDEX ON :Country(code)
+
+// Setter inn selve reisene
+LOAD CSV FROM "file:///out.csv" AS flights MATCH (departure:Country {code:flights[5]}) MATCH (arriving:Country {code:flights[6]}) MERGE (departure)-[:Flight {date:flights[7]}]->(arriving)
+
+
+// Hente data (skal i tillegg kunne filtreres på dato)
+MATCH (:Country {code:"US"})-[flight:Was]->(country:Country) RETURN country.code, flight.date
