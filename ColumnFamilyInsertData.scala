@@ -1,6 +1,5 @@
 import org.apache.spark.sql.SparkSession
 
-import org.apache.spark.sql.cassandra
 
 import org.apache.spark.sql._
 import org.apache.spark.sql.functions._
@@ -75,8 +74,9 @@ object ColumnFamilyInsertData {
         vaccines TEXT,
         source_name TEXT,
         source_website TEXT,
-        PRIMARY KEY (country, iso_code)
+        PRIMARY KEY (country, date)
     );
+    CREATE TABLE kode.vaccine (country TEXT,iso_code TEXT,date DATE,total_vaccinated INT,people_fully_vaccinated INT,daily_vaccinations_raw INT,daily_vaccinations INT,total_vaccinations_per_hundred DOUBLE,people_vaccinated_per_hundred DOUBLE,people_fully_vaccinated_per_hundred DOUBLE,daily_vaccinations_per_million DOUBLE,vaccines TEXT,source_name TEXT,source_website TEXT,PRIMARY KEY (country, date));
 */
 /*
 Starter spark shell
