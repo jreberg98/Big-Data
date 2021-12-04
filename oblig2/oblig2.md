@@ -14,7 +14,41 @@ Kallene til databasen vil bestå av et eller flere land, og enten på en dato el
 Alternativt kunne man hatt en nøkkel med kun navn på landet, og så en liste der alle datoer er oppført. I dette tilfellet hadde det blitt veldig store objekter med lister som må ittereres, noe Key-Value databaser ikke er designet for å gjøre.
 
 ### Objekt
-Siden nøkkelen består av et land og en dato skal hvert objekt holde på dataene for den ene dagen i det landet. Objektet vil da ha et felt for hvert felt i datasettet. Altså 4 felt med tall for den aktuelle dagen, 3 felter med totaler for det lande frem til valgt dato, og så et felt med hvilken region som er med. 
+Siden nøkkelen består av et land og en dato skal hvert objekt holde på dataene for den ene dagen i det landet. Objektet vil da ha et felt for hvert felt i datasettet. Altså 4 felt med tall for den aktuelle dagen, 3 felter med totaler for det landet frem til valgt dato, og så et felt med hvilken region som er med.
+
+### Eksempel
+For å illustrere hvordan et objekt kan se ut lager jeg et eksempel i JSON. Det er for å gjøre det lettere å se for seg istendenfor å skjønne ut fra teksten.
+
+```json
+"Afganistan:2020-01-22": {
+	date: 2020-01-22,
+	country: "Afganistan",
+	confirmed: 0
+	deaths: 0
+	recovered: 0
+	active: 0
+	newCases: 0
+	newDeaths: 0
+	newRecoveries: 0
+	region: "Eastern Mediterranean"
+}
+```
+
+Eksempelet over er for landet Afganistan for datoen 22/01-2020, og inneholder alle datafeltene for oppføringen. Til svarende er eksempelet under, da bare for en region istedenfor. Verdiene i objektene er 0 ettersom dette er tidlig i pandemien før man smitten hadde spred seg ut av Asia.
+
+```json
+"Europe:2020-01-22": {
+	date: 2020-01-22,
+	region: "Europe",
+	confirmed: 0
+	deaths: 0
+	recovered: 0
+	active: 0
+	newCases: 0
+	newDeaths: 0
+	newRecoveries: 0
+}
+```
 
 ### Aggregering
 Aggregeringene man har bruk for i objektene er summering av tallene i det tidligere oppføringene. Denne summeringa er allerede med i filen, så databasen trenger strengt tatt da ikke å aggregere noe. Denne aggregeringen er forholdsvis lett å gjennomføre, ettersom det bare å legge til de aggregerte verdiene fra forrige objekt og legge til de som er på objektet man leser inn. Dette kunne man eventuelt gjort for å dobbeltsjekke at dataen stemmer.
@@ -30,15 +64,31 @@ En ulempe med Riak er at det er mer funksjonalitet enn det man trenger til dette
 
 En annen fordel med Riak er at Riak støtter bøtter. Det gjør at man kan samle land i en bøtte mens man har regioner i en annen. På den måten blir det mer separert, som igjen gjør dataen mer oversiktlig. På grunn av dette ville jeg derfor gått for å bruke Riak.
 
+### CAP
+Ettersom objektene kommer til å være veldig små vil det ikke gå utover muligheten til å partisjonere objektene. Det gjør at dataen kan fordeles utover på flere noder, som gjør at dataen kan partisjoneres.
+
+Ifølge CAP teoremet må man velge bort enten konsistens, tilgjengelighet eller partisjonering. Ettersom dette er en distribuert databasemotor som bruker flere noder vil ikke det kunne velges bort. Det betyr at valget står mellom konsistens og tilgjengelighet.
+
+For dette datasettet er det viktigere med tilgjengelighet enn konsistens. Grunen til dette er at en større tilgjengelighet gjør at man får svar på spørringer fortere, men det går utover konsistensen. Konstistens går ut på hvor sikker man er på at dataen man får tilbake er den som er nyligst lagt til. Grunnen til at konsistens nedprioriteres i forhold til tilgjengelighet er at dette er data som sjeldent oppdateres, så det vil dermed naturlig skje sjeldent at man får utdatert data.
 
 ## C
-1. Dataen blir validert
-2. Data for samme land, men forrige dato blir hentet inn
-3. Slår sammen landet og datoen til en ny nøkkel
-4. Legger sammen de nye dataene med de aggregerte verdiene fra forrige objekt
-5. Legger inn et nytt objekt med den nye nøkkelen, verdiene som kom og de aggregerte verdiene
-6. 1. Dersom det er et objekt for regionen for datoen oppdateres den
-   1. Dersom det ikke er et objekt for regionen opprettes det med de samme verdiene som landet har
+Selve det å sette nye data inn i databasen vil fungere som en "upsert" funksjon, altså enten update eller insert avhengig om dataen allerede finnes. Ettersom ETCD har muligheten til å overskrive data som allerede ligger lagret vil det dermed holde å bare legge inn data.
+
+Derimot vil det skape problemer for aggregeringene, ettersom de ikke blir oppdatert. For å løse dette må man først sjekke om dataen er lagret i databasen. Prosessen blir da som i listen under.
+
+1. Hente inn de nye dataene
+2. Lage en nøkkel av dataene man får.
+3. Prøve å hente data fra databasen
+   * Dersom data finnes fra før
+     1. Finne forskjellen på de ulike feltene på ny og gammel data
+     2. Lage nøkkel for det aggregerte objektet
+     3. Oppdatere feltene i det aggregerte objektet
+   * Dersom data ikke finnes fra før
+     1. Lage nøkkel for det aggregerte objektet
+     2. Hente det aggregerte objektet
+     3. Dersom det finnes et aggregert objekt, oppdater verdiene med det nye objektet
+4. Sette inn det oppdaterte aggregerte objektet
+5. Sette inn det nye objektet
 
 ## D
 Dersom dataene hadde vært mine ville jeg gått for sterkere konsistens i databasen. Grunnen til dette er at man da er mer sikker på at aggregeringene blir riktige, og at dataen da blir mer korrekt.
